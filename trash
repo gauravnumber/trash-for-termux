@@ -17,7 +17,7 @@ else
 	tar -cf "$LOC" "$@"
 fi
 
-	rm -rf "$@"
-	echo "files removed"
-	
+rm -rf "$@"
+echo "files removed"
+
 echo "trash done"
