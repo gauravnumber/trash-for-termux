@@ -1,10 +1,7 @@
 #!/bin/sh
 
-# desktop
-#LOC="$HOME/.trash/trash.tar"
-
-# termux on android app
-LOC="$HOME/storage/shared/.trash/trash.tar"
+DIR="$HOME/storage/shared/.trash"
+LOC="$DIR/trash.tar"
 
 if [ $# -eq 0 ]; then
 	echo "Which file you decided to trash?"
@@ -16,7 +13,7 @@ if [ -e "$LOC" ]; then
 	tar -rf "$LOC" "$@"
 else 
 	echo "trash created $@"
-	mkdir -p "$HOME/storage/shared/.trash"
+	mkdir -p "$DIR"
 	tar -cf "$LOC" "$@"
 fi
 
