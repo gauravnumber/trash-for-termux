@@ -4,16 +4,45 @@ DIR="$HOME/storage/shared/.trash"
 LOC="$DIR/trash.tar"
 
 main() {
-
-	while getopts ":e" opt; do
+	while getopts ":e :r: :l :s" opt; do
 		case $opt in
-		e)
+		e) #? Empty trash
 			echo "All trash cleared" >&2
 			rm ~/.trash/trash.tar
 			exit 0
 			;;
+		r) #? Restore all files in given path
+			echo "Restore all files $OPTARG" >&2
+			if [ -z $OPTARG ]; then
+				tar -xf "$LOC" -C "."
+				exit 0
+			fi
+			#? $OPTARG receiving path
+			tar -xf "$LOC" -C "$OPTARG"
+			exit 0
+			;;
+		l) #? Show all files in trash
+			if [ -e "$LOC" ]; then
+				tar -tf "$LOC"
+			else
+				echo "Trash not exist."
+			fi
+			exit 0
+			;;
+		s) #? Show size of trash
+			if [ -e "$LOC" ]; then
+				du -sh "$LOC"
+			else
+				echo "Trash not exist."
+			fi
+			exit 0
+			;;
 		\?)
 			echo "Invalid option: -$OPTARG" >&2
+			exit 1
+			;;
+		:)
+			echo "-$OPTARG value required." >&2
 			exit 1
 			;;
 		esac
